@@ -46,8 +46,9 @@
         function fillTable(page, limit) {
             cleanTable();
             startWith = (page - 1) * limit;
+            endWith = countryList.length > startWith + limit ? startWith + limit : countryList.length;
 
-            for (i = startWith; i < startWith + limit; i++) {
+            for (i = startWith; i < endWith; i++) {
                 item = countryList[i];
                 strHtml = '<tr>';
                 strHtml += '<td>' + (i + 1) + '</td>';
@@ -83,8 +84,7 @@
         }
 
         function createPagination(now, totalItem, limit) {
-            totalPage = Math.round(totalItem / limit);
-
+            totalPage = Math.ceil(totalItem / limit);
             tmpHtml = '<tr><td colspan="9" class="page">';
             for (let index = 1; index <= totalPage; index++) {
                 if (index === now) {
@@ -132,11 +132,30 @@
                 }
             });
         }
+
+        function search() {
+            name = $('#searchInput').val();
+            tmpArray = new Array();
+
+            countryList.forEach(function (item) {
+                tmpStr = item.name;
+                if (tmpStr.search(name) !== -1) {
+                    tmpArray.push(item);
+                }
+            });
+
+            countryList = tmpArray;
+            fillTable(1, limit);
+            totalItem = countryList.length;
+            createPagination(1, totalItem, limit);
+        }
     </script>
 </head>
 　
 
 <body>
+    <span><input value="Taiwan" id="searchInput"><button type="button" onclick="search()">Search</button></span>
+    </br>
     <table id="countryList">
         <thead>
             <th>
