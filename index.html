@@ -31,9 +31,10 @@
                 strHtml += fillTd(item, 'nativeName');
                 strHtml += fillTd(item, 'altSpellings');
                 strHtml += fillTd(item, 'callingCodes');
+                strHtml += '<td>more</td>';
                 strHtml += '</tr>';
 
-                $('#countryList tbody').append(strHtml);
+                $('#itemList').append(strHtml);
             }
         }
 
@@ -46,12 +47,12 @@
                 default:
                     tmpHtml += item[field];
             }
-            tmpHtml += '<td>';
+            tmpHtml += '</td>';
             return tmpHtml;
         }
 
         function cleanTable() {
-            $('#countryList tbody').html("");
+            $('#itemList').html("");
         }
     </script>
 </head>
@@ -59,30 +60,36 @@
 
 <body>
     <table id="countryList">
-        <th>
-        <td>
-            flag
-        </td>
-        <td>
-            name
-        </td>
-        <td>
-            alpha2Code
-        </td>
-        <td>
-            alpha3Code
-        </td>
-        <td>
-            altSpellings
-        </td>
-        <td>
-            callingCodes
-        </td>
-        <td>
-            model
-        </td>
-        </th>
-        <tbody>
+        <thead>
+            <th>
+                no
+            </th>
+            <th>
+                flag
+            </th>
+            <th>
+                name
+            </th>
+            <th>
+                alpha2Code
+            </th>
+            <th>
+                alpha3Code
+            </th>
+            <th>
+                nativeName
+            </th>
+            <th>
+                altSpellings
+            </th>
+            <th>
+                callingCodes
+            </th>
+            <th>
+                model
+            </th>
+        </thead>
+        <tbody id="itemList">
 
         </tbody>
     </table>
