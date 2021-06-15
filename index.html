@@ -19,6 +19,8 @@
     </style>
     <script>
         limit = 25;
+        // sorting = 'ASC';
+
         countryList = new Array();
         $.ajax({
             url: "https://restcountries.eu/rest/v2/all",
@@ -89,6 +91,20 @@
             totalItem = countryList.length;
             createPagination(to, totalItem, limit);
         }
+
+        //TODO 反向獲取數據可能性能更好？
+        function changeSorting() {
+            countryList = countryList.reverse();
+            fillTable(1, limit);
+            totalItem = countryList.length;
+            createPagination(1, totalItem, limit);
+
+            // if (sorting === 'ASC') {
+            //     sorting = 'DESC';
+            // } else {
+            //     sorting = 'ASC';
+            // }
+        }
     </script>
 </head>
 　
@@ -103,7 +119,7 @@
                 flag
             </th>
             <th>
-                name
+                <a href="#" onclick="changeSorting()">name</a>
             </th>
             <th>
                 alpha2Code
