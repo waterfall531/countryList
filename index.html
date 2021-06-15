@@ -13,8 +13,19 @@
             text-align: right;
         }
 
-        table td {
+        table td,
+        table th {
             border: 1px #000 solid;
+        }
+
+        table {
+            width: 80%;
+            float: left;
+        }
+
+        #detail {
+            width: 20%;
+            float: right;
         }
     </style>
     <script>
@@ -47,7 +58,7 @@
                 strHtml += fillTd(item, 'nativeName');
                 strHtml += fillTd(item, 'altSpellings');
                 strHtml += fillTd(item, 'callingCodes');
-                strHtml += '<td>more</td>';
+                strHtml += '<td><a href="#" onclick="getDetail(\'' + item.alpha2Code + '\')">more</a></td>';
                 strHtml += '</tr>';
 
                 $('#itemList').append(strHtml);
@@ -105,6 +116,22 @@
             //     sorting = 'ASC';
             // }
         }
+
+        function getDetail(id) {
+            $.ajax({
+                url: "https://restcountries.eu/rest/v2/alpha/" + id,
+                success: function (result) {
+                    Object.keys(result).forEach(function (key) {
+                        if (key !== 'flag' || key !== 'name' || key !== 'alpha2Code' || key !== 'alpha3Code' ||
+                            key !== 'nativeName' || key !== 'altSpellings' || key !== 'callingCodes') {
+                        }
+                        strHtml = '<div>';
+                        strHtml += key + '&nbsp;:&nbsp;' + result[key] + '</div>';
+                        $('#detail').append(strHtml);
+                    });
+                }
+            });
+        }
     </script>
 </head>
 　
@@ -148,5 +175,7 @@
         </tfoot>
     </table>
 </body>
+<div id="detail">
+</div>
 
 </html>
