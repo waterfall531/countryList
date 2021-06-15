@@ -1,0 +1,91 @@
+<html>
+　
+
+<head>
+    　<title>countryList</title>
+    <script src="jquery-3.6.0.min.js"></script>
+    　
+    <script>
+        limit = 25;
+        countryList = new Array();
+        $.ajax({
+            url: "https://restcountries.eu/rest/v2/all",
+            success: function (result) {
+                countryList = result;
+                fillTable(1, 25);
+            }
+        });
+
+        function fillTable(page, limit) {
+            cleanTable();
+            startWith = (page - 1) * limit;
+
+            for (i = startWith; i < startWith + limit; i++) {
+                item = countryList[i];
+                strHtml = '<tr>';
+                strHtml += '<td>' + (i + 1) + '</td>';
+                strHtml += fillTd(item, 'flag');
+                strHtml += fillTd(item, 'name');
+                strHtml += fillTd(item, 'alpha2Code');
+                strHtml += fillTd(item, 'alpha3Code');
+                strHtml += fillTd(item, 'nativeName');
+                strHtml += fillTd(item, 'altSpellings');
+                strHtml += fillTd(item, 'callingCodes');
+                strHtml += '</tr>';
+
+                $('#countryList tbody').append(strHtml);
+            }
+        }
+
+        function fillTd(item, field) {
+            tmpHtml = '<td>';
+            switch (field) {
+                case 'flag':
+                    tmpHtml += '<img src="' + item.flag + '" alt="' + item.name + '" style="width:20px;">';
+                    break;
+                default:
+                    tmpHtml += item[field];
+            }
+            tmpHtml += '<td>';
+            return tmpHtml;
+        }
+
+        function cleanTable() {
+            $('#countryList tbody').html("");
+        }
+    </script>
+</head>
+　
+
+<body>
+    <table id="countryList">
+        <th>
+        <td>
+            flag
+        </td>
+        <td>
+            name
+        </td>
+        <td>
+            alpha2Code
+        </td>
+        <td>
+            alpha3Code
+        </td>
+        <td>
+            altSpellings
+        </td>
+        <td>
+            callingCodes
+        </td>
+        <td>
+            model
+        </td>
+        </th>
+        <tbody>
+
+        </tbody>
+    </table>
+</body>
+
+</html>
