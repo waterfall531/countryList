@@ -4,7 +4,19 @@
 <head>
     　<title>countryList</title>
     <script src="jquery-3.6.0.min.js"></script>
-    　
+    　<style>
+        .flag {
+            width: 20px;
+        }
+
+        .page {
+            text-align: right;
+        }
+
+        table td {
+            border: 1px #000 solid;
+        }
+    </style>
     <script>
         limit = 25;
         countryList = new Array();
@@ -12,7 +24,9 @@
             url: "https://restcountries.eu/rest/v2/all",
             success: function (result) {
                 countryList = result;
-                fillTable(1, 25);
+                fillTable(1, limit);
+                totalItem = countryList.length;
+                createPagination(1, totalItem, limit);
             }
         });
 
@@ -42,7 +56,7 @@
             tmpHtml = '<td>';
             switch (field) {
                 case 'flag':
-                    tmpHtml += '<img src="' + item.flag + '" alt="' + item.name + '" style="width:20px;">';
+                    tmpHtml += '<img class="flag" src="' + item.flag + '" alt="' + item.name + '" >';
                     break;
                 default:
                     tmpHtml += item[field];
@@ -53,6 +67,27 @@
 
         function cleanTable() {
             $('#itemList').html("");
+        }
+
+        function createPagination(now, totalItem, limit) {
+            totalPage = Math.round(totalItem / limit);
+
+            tmpHtml = '<tr><td colspan="9" class="page">';
+            for (let index = 1; index <= totalPage; index++) {
+                if (index === now) {
+                    tmpHtml += index + '&nbsp;';
+                } else {
+                    tmpHtml += '<a href="#" onclick="changePage(' + index + ')">' + index + '</a>' + '&nbsp;';
+                }
+            }
+            tmpHtml += '</td></tr>';
+            $('#listPage').html(tmpHtml);
+        }
+
+        function changePage(to) {
+            fillTable(to, limit);
+            totalItem = countryList.length;
+            createPagination(to, totalItem, limit);
         }
     </script>
 </head>
@@ -92,6 +127,9 @@
         <tbody id="itemList">
 
         </tbody>
+        <tfoot id="listPage">
+
+        </tfoot>
     </table>
 </body>
 
